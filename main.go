@@ -44,6 +44,17 @@ func main() {
 		// process each line
 		line := scanner.Text()
 		fmt.Println(line)
+		subdomains := subdomainEnum(line)
+		// fmt.Println(subdomains)
+		for i, subdomain := range subdomains {
+			fmt.Println(i, subdomain)
+			ports := portScanning(subdomain)
+			// fmt.Println(ports)
+			for j, port := range ports {
+				fmt.Println(j, port)
+			}
+		}
+
 	}
 
 	if err := scanner.Err(); err != nil {
