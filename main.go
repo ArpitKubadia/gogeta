@@ -15,6 +15,10 @@ func main() {
 	// define command-line flags
 	filePtr := flag.String("file", "", "input file path")
 	urlPtr := flag.String("url", "", "input URL")
+	allPtr := flag.Bool("all", false, "Scan Everything")
+	subdomainPtr := flag.Bool("subdomain", false, "Scan Subdomains")
+	// portPtr := flag.String("port", "", "Scan Ports")
+
 	flag.Parse()
 
 	// check which flag is provided
@@ -39,22 +43,37 @@ func main() {
 	// create scanner for input
 	scanner := bufio.NewScanner(in)
 
-	// scan input line by line
-	for scanner.Scan() {
-		// process each line
-		line := scanner.Text()
-		fmt.Println(line)
-		subdomains := subdomainEnum(line)
-		// fmt.Println(subdomains)
-		for i, subdomain := range subdomains {
-			fmt.Println(i, subdomain)
-			ports := portScanning(subdomain)
-			// fmt.Println(ports)
-			for j, port := range ports {
-				fmt.Println(j, port)
+	if *allPtr {
+		// scan input line by line
+		for scanner.Scan() {
+			// process each line
+			line := scanner.Text()
+			fmt.Println(line)
+			subdomains := subdomainEnum(line)
+			// fmt.Println(subdomains)
+			for i, subdomain := range subdomains {
+				fmt.Println(i, subdomain)
+				ports := portScanning(subdomain)
+				// fmt.Println(ports)
+				for j, port := range ports {
+					fmt.Println(j, port)
+				}
 			}
+
 		}
 
+	}
+
+	if *subdomainPtr {
+		// scan input line by line
+		for scanner.Scan() {
+			// process each line
+			line := scanner.Text()
+			fmt.Println(line)
+			subdomains := subdomainEnum(line)
+			fmt.Println(subdomains)
+
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
