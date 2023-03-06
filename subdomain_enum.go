@@ -8,9 +8,8 @@ import (
 	"strings"
 )
 
-func subdomainEnum(domain string) []string {
+func scan(domain string) []string {
 	cmd := exec.Command("assetfinder", domain)
-	fmt.Println(cmd.String())
 	var out bytes.Buffer
 	cmd.Stdout = &out
 
@@ -19,6 +18,14 @@ func subdomainEnum(domain string) []string {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return strings.Split(out.String(), "\n")
+}
+
+func subdomainEnum(input []string) []string {
+	results := []string{}
+	for _, domain := range input {
+		fmt.Println(domain)
+		results = append(results, scan(domain)...) //to resolve "cannot use scan(domain) (value of type []string) as string value in argument to append"
+	}
+	return results
 }
