@@ -16,9 +16,6 @@ func main() {
 	filePtr := flag.String("file", "", "input file path")
 	urlPtr := flag.String("url", "", "input URL")
 	modePtr := flag.String("mode", "all", "Values: all, subdomain, port")
-	// allPtr := flag.Bool("all", false, "Scan Everything")
-	// subdomainPtr := flag.Bool("subdomain", false, "Scan Subdomains")
-	// portPtr := flag.Bool("port", false, "Scan Ports")
 
 	flag.Parse()
 
@@ -48,47 +45,13 @@ func main() {
 		inputs = append(inputs, scanner.Text())
 	}
 
-	switch {
-	case *modePtr == "subdomain":
-		results := subdomainEnum(inputs)
-		fmt.Println(results)
+	var funcMap = map[string]interface{}{
+		"subdomain": subdomainEnum,
+		"port":      portScanning,
 	}
 
-	// if *allPtr {
-	// 	// scan input line by line
-	// 	for scanner.Scan() {
-	// 		// process each line
-	// 		line := scanner.Text()
-	// 		fmt.Println(line)
-	// 		subdomains := subdomainEnum(line)
-	// 		// fmt.Println(subdomains)
-	// 		for i, subdomain := range subdomains {
-	// 			fmt.Println(i, subdomain)
-	// 			ports := portScanning(subdomain)
-	// 			// fmt.Println(ports)
-	// 			for j, port := range ports {
-	// 				fmt.Println(j, port)
-	// 			}
-	// 		}
-
-	// 	}
-
-	// }
-
-	// if *subdomainPtr {
-	// 	// scan input line by line
-	// 	for scanner.Scan() {
-	// 		// process each line
-	// 		line := scanner.Text()
-	// 		fmt.Println(line)
-	// 		subdomains := subdomainEnum(line)
-	// 		fmt.Println(subdomains)
-	// 	}
-	// }
-
-	// if *portPtr {
-
-	// }
+	results := funcMap[*modePtr].(func([]string) []string)(inputs)
+	fmt.Println(results)
 
 	if err := scanner.Err(); err != nil {
 		panic(err)
