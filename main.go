@@ -15,7 +15,7 @@ func main() {
 	// define command-line flags
 	filePtr := flag.String("file", "", "input file path")
 	urlPtr := flag.String("url", "", "input URL")
-	modePtr := flag.String("mode", "all", "Values: all, subdomain, port")
+	modePtr := flag.String("mode", "all", "Values: all, subdomain, port, host, nuclei")
 
 	flag.Parse()
 
@@ -48,6 +48,8 @@ func main() {
 	var funcMap = map[string]interface{}{
 		"subdomain": subdomainEnum,
 		"port":      portScanning,
+		"host":      hostScanning,
+		"nuclei":    nucleiScanning,
 	}
 
 	results := funcMap[*modePtr].(func([]string) []string)(inputs)
