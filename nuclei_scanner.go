@@ -9,7 +9,7 @@ import (
 )
 
 func nuclei_scan(subdomain string) []string {
-	cmd := exec.Command("nuclei", "-u", subdomain, "-silent", "-c", "200", "-rl", "1000", "-nc", "-s", "low")
+	cmd := exec.Command("nuclei", "-u", subdomain, "-silent", "-c", "200", "-rl", "1000", "-nc")
 	fmt.Println(cmd.String())
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
