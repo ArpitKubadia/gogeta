@@ -101,8 +101,8 @@ func execCommands(domain string, tag_input string) []string {
 
 		// Print the list of outputs for the current tag
 		fmt.Printf("Outputs for tag %s:\n", tag)
-		for i, output := range outputs {
-			fmt.Printf("%d. %s\n", i+1, output)
+		for _, output := range outputs {
+			fmt.Printf(output)
 		}
 		fmt.Println()
 	}
