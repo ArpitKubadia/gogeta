@@ -1,0 +1,3 @@
+tag: "subdomain"
+commands:
+  - cmd: "assetfinder --subs-only {{.domain}}"

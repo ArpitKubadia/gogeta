@@ -1,0 +1,3 @@
+tag: "nuclei"
+commands:
+  - cmd: "nuclei -u {{.domain}} silent -c 200 -rl 1000 -nc"

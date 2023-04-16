@@ -1,0 +1,3 @@
+tag: "port"
+commands:
+  - cmd: "naabu -host {{.domain}}"

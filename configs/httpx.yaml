@@ -1,0 +1,3 @@
+tag: "host"
+commands:
+  - cmd: "httpx -u {{.domain}} -silent"

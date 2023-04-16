@@ -15,7 +15,8 @@ func main() {
 	// define command-line flags
 	filePtr := flag.String("file", "", "input file path")
 	urlPtr := flag.String("url", "", "input URL")
-	modePtr := flag.String("mode", "all", "Values: all, subdomain, port, host, nuclei")
+	tagPtr := flag.String("mode", "all", "Values: all, subdomain, port, host, nuclei")
+	// tagPtr := flag.String("tag", "", "input URL")
 
 	flag.Parse()
 
@@ -45,15 +46,29 @@ func main() {
 		inputs = append(inputs, scanner.Text())
 	}
 
-	var funcMap = map[string]interface{}{
-		"subdomain": subdomainEnum,
-		"port":      portScanning,
-		"host":      hostScanning,
-		"nuclei":    nucleiScanning,
-	}
+	// var funcMap = map[string]interface{}{
+	// 	"subdomain": subdomainEnum,
+	// 	"port":      portScanning,
+	// 	"host":      hostScanning,
+	// 	"nuclei":    nucleiScanning,
+	// 	"execCmd":   execCommands,
+	// }
 
-	results := funcMap[*modePtr].(func([]string) []string)(inputs)
-	fmt.Println(results)
+	// var tags []string
+	// if *tagPtr == "all" {
+	// 	tags = []string{"subdomain", "port", "hosts", "nuclei"}
+	// } else {
+	// 	tags = make([]string, 1)
+	// 	tags[0] = *tagPtr
+	// }
+	// fmt.Println(tags)
+	for _, domain := range inputs {
+		fmt.Println(domain)
+		execCommands(domain, *tagPtr)
+		// results = append(results, subdomain_scan(domain)...) //to resolve "cannot use scan(domain) (value of type []string) as string value in argument to append"
+	}
+	// results := funcMap[*tagPtr].(func([]string) []string)(inputs)
+	// fmt.Println(results)
 
 	if err := scanner.Err(); err != nil {
 		panic(err)

@@ -38,22 +38,6 @@ func nuclei_scan(subdomain string) []string {
 	return strings.Split(out.String(), "\n")
 }
 
-// func nuclei_scan(subdomain string) []string {
-// 	cmd := exec.Command("nuclei", "-u", subdomain, "-silent")
-// 	fmt.Println(cmd.String())
-// 	var out bytes.Buffer
-// 	cmd.Stdout = &out
-
-// 	err := cmd.Run()
-
-// 	if err != nil {
-// 		log.Fatal(err)
-// 		fmt.Println(err)
-// 	}
-// 	fmt.Println(out.String())
-// 	return strings.Split(out.String(), "\n")
-// }
-
 func nucleiScanning(input []string) []string {
 	results := []string{}
 	for _, subdomain := range input {
