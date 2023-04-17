@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -22,7 +23,7 @@ type Config struct {
 	Commands []Command `yaml:"commands"`
 }
 
-func execCommands(domain string, tag_input string) []string {
+func execCommands(domain string, tag_input string) map[string]struct{} {
 	// Get the tag from command line arguments
 	if len(os.Args) < 2 {
 		log.Fatal("Please provide a tag as an argument")
@@ -66,13 +67,15 @@ func execCommands(domain string, tag_input string) []string {
 	}
 
 	fmt.Println(tags)
-
+	results := make(map[string]struct{})
 	for _, tag := range tags {
 		fmt.Printf("Processing tag: %s\n", tag)
 
 		// Read YAML files from the folder
 		folder := "." // Set the folder containing YAML files
-		outputs := []string{}
+		// outputs := []string{}
+		outputs := make(map[string]struct{})
+
 		err := filepath.Walk(folder, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -89,7 +92,10 @@ func execCommands(domain string, tag_input string) []string {
 					if err != nil {
 						return err
 					}
-					outputs = append(outputs, output...)
+					for _, o := range output {
+						outputs[o] = struct{}{}
+					}
+					// outputs = append(outputs, output...)
 				}
 			}
 			return nil
@@ -101,12 +107,16 @@ func execCommands(domain string, tag_input string) []string {
 
 		// Print the list of outputs for the current tag
 		fmt.Printf("Outputs for tag %s:\n", tag)
-		for _, output := range outputs {
-			fmt.Printf(output)
+		// for _, output := range outputs {
+		// 	fmt.Printf(output)
+		// }
+		// fmt.Println()
+		for k, v := range outputs {
+			results[k] = v
 		}
-		fmt.Println()
+		// results = append(results, outputs...)
 	}
-	results := []string{}
+
 	return results
 }
 
@@ -152,17 +162,21 @@ func executeCommands(config *Config, vars map[string]string) ([]string, error) {
 		if err != nil {
 			return nil, fmt.Errorf("Error executing command: %v", err)
 		}
-		outputs = append(outputs, output)
+		outputs = append(outputs, output...)
 	}
 	return outputs, nil
 }
 
-func executeCommand(cmdStr string) (string, error) {
+func executeCommand(cmdStr string) ([]string, error) {
 	cmd := exec.Command("sh", "-c", cmdStr)
 	fmt.Println(cmd.String())
-	output, err := cmd.CombinedOutput()
+	var out bytes.Buffer
+	cmd.Stdout = &out
+
+	err := cmd.Run()
+
 	if err != nil {
-		return "", fmt.Errorf("Error executing command: %v", err)
+		return nil, fmt.Errorf("Error executing command: %v", err)
 	}
-	return strings.TrimSpace(string(output)), nil
+	return strings.Split(out.String(), "\n"), nil
 }
