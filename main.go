@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 )
@@ -16,6 +17,8 @@ func main() {
 	filePtr := flag.String("file", "", "input file path")
 	urlPtr := flag.String("url", "", "input URL")
 	tagPtr := flag.String("mode", "all", "Values: all, subdomain, port, host, nuclei")
+	outputFile := flag.String("o", "", "Path to the output file")
+
 	// tagPtr := flag.String("tag", "", "input URL")
 
 	flag.Parse()
@@ -62,13 +65,27 @@ func main() {
 	// 	tags[0] = *tagPtr
 	// }
 	// fmt.Println(tags)
+
+	var file *os.File
+	var err error
+
+	if *outputFile != "" {
+		file, err = os.Create(*outputFile)
+		if err != nil {
+			log.Fatalf("Failed to create output file: %v", err)
+		}
+		defer file.Close()
+	} else {
+		file = os.Stdout
+	}
+
 	for _, domain := range inputs {
 		// fmt.Println(domain)
 		results := execCommands(domain, *tagPtr)
 		output := make([]string, 0, len(results))
 		for k := range results {
 			output = append(output, k)
-			fmt.Println(k)
+			fmt.Fprintln(file, k)
 		}
 
 		// fmt.Println(output)
