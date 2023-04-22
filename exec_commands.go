@@ -34,9 +34,12 @@ func execCommands(domain string, tag_input string) map[string]struct{} {
 		"domain": domain,
 	}
 	var tags []string
+	homePath := os.Getenv("HOME")
+	folder := homePath + "/configs/"
+
 	if tag_input == "all" {
 		// Collect all unique tags from YAML files
-		folder := "."
+
 		uniqueTags := make(map[string]struct{})
 		err := filepath.Walk(folder, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
@@ -72,8 +75,6 @@ func execCommands(domain string, tag_input string) map[string]struct{} {
 		// fmt.Printf("Processing tag: %s\n", tag)
 
 		// Read YAML files from the folder
-		folder := "." // Set the folder containing YAML files
-		// outputs := []string{}
 		outputs := make(map[string]struct{})
 
 		err := filepath.Walk(folder, func(path string, info os.FileInfo, err error) error {
@@ -82,6 +83,7 @@ func execCommands(domain string, tag_input string) map[string]struct{} {
 			}
 
 			if !info.IsDir() && strings.HasSuffix(info.Name(), ".yaml") {
+				// fmt.Println("Entered here")
 				config, err := readYAMLFile(path)
 				if err != nil {
 					return err

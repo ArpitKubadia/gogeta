@@ -84,8 +84,11 @@ func main() {
 		results := execCommands(domain, *tagPtr)
 		output := make([]string, 0, len(results))
 		for k := range results {
-			output = append(output, k)
-			fmt.Fprintln(file, k)
+			if k != "" {
+				output = append(output, k)
+				fmt.Fprintln(file, k)
+			}
+
 		}
 
 		// fmt.Println(output)
