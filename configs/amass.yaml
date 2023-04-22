@@ -1,0 +1,3 @@
+tag: "subdomain"
+commands:
+  - cmd: "amass enum -silent -d {{.domain}}"
