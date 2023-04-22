@@ -1,3 +1,0 @@
-tag: "subdomain"
-commands:
-  - cmd: "python3 tools/github-search/github-subdomains.py -d {{.domain}} -t e83c96f7ca5d682d553afb9a73f40634ac063176"
