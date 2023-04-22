@@ -63,15 +63,16 @@ func main() {
 	// }
 	// fmt.Println(tags)
 	for _, domain := range inputs {
-		fmt.Println(domain)
+		// fmt.Println(domain)
 		results := execCommands(domain, *tagPtr)
 		output := make([]string, 0, len(results))
 		for k := range results {
 			output = append(output, k)
+			fmt.Println(k)
 		}
 
-		fmt.Println(output)
-		fmt.Println(len(output))
+		// fmt.Println(output)
+		// fmt.Println(len(output))
 		// results = append(results, subdomain_scan(domain)...) //to resolve "cannot use scan(domain) (value of type []string) as string value in argument to append"
 	}
 	// results := funcMap[*tagPtr].(func([]string) []string)(inputs)

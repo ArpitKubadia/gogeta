@@ -66,10 +66,10 @@ func execCommands(domain string, tag_input string) map[string]struct{} {
 		tags[0] = tag_input
 	}
 
-	fmt.Println(tags)
+	// fmt.Println(tags)
 	results := make(map[string]struct{})
 	for _, tag := range tags {
-		fmt.Printf("Processing tag: %s\n", tag)
+		// fmt.Printf("Processing tag: %s\n", tag)
 
 		// Read YAML files from the folder
 		folder := "." // Set the folder containing YAML files
@@ -106,7 +106,7 @@ func execCommands(domain string, tag_input string) map[string]struct{} {
 		}
 
 		// Print the list of outputs for the current tag
-		fmt.Printf("Outputs for tag %s:\n", tag)
+		// fmt.Printf("Outputs for tag %s:\n", tag)
 		// for _, output := range outputs {
 		// 	fmt.Printf(output)
 		// }
@@ -169,7 +169,7 @@ func executeCommands(config *Config, vars map[string]string) ([]string, error) {
 
 func executeCommand(cmdStr string) ([]string, error) {
 	cmd := exec.Command("sh", "-c", cmdStr)
-	fmt.Println(cmd.String())
+	// fmt.Println(cmd.String())
 	var out bytes.Buffer
 	cmd.Stdout = &out
 

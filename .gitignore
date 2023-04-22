@@ -3,3 +3,5 @@
 tools/
 gogeta
 
+go.mod
+go.sum
