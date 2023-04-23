@@ -1,0 +1,3 @@
+tag: "crawler"
+commands:
+  - cmd: "gospider -q -s "\{{.domain}}"\"

@@ -22,6 +22,21 @@ GO111MODULE=on
 # Install crobat
 /usr/local/go/bin/go install github.com/cgboal/sonarsearch/cmd/crobat@latest
 
+# Install gau
+/usr/local/go/bin/go install github.com/lc/gau/v2/cmd/gau@latest
+
+# Install gospider
+/usr/local/go/bin/go install github.com/jaeles-project/gospider@latest
+
+
+# Install Gxss
+/usr/local/go/bin/go install github.com/KathanP19/Gxss@latest
+
+
+# Install Hakrawler
+/usr/local/go/bin/go install github.com/hakluke/hakrawler@latest
+
+
 if [ ! -d "tools" ]; then
     mkdir tools
 fi
